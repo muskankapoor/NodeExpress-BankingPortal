@@ -9,7 +9,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 // middleware to handle POST data
-app.use(express.urlencoded, { extended: true });
+app.use(express.urlencoded({ extended: true }));
 
 // readFileSync to read contetns of file
 const accountData = fs.readFileSync('src/json/accounts.json', encoding='utf-8');
@@ -52,7 +52,6 @@ app.get('/payment', (req, res) => {
 });
 
 // payment post 
-
 app.post('/payment', (req, res) => {
     accounts.credit.balance -=  req.body.amount;
     parseInt(accounts.credit.available) += parseInt(req.body.amount);
