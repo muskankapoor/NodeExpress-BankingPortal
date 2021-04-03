@@ -14,7 +14,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 // middleware to handle POST data
 app.use(express.urlencoded({ extended: true }));
-app.use('/accounts', accountRoutes);
+app.use('/account', accountRoutes);
 app.use('/services', servicesRoutes);
 
 
