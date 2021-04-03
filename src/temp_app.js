@@ -45,12 +45,34 @@ app.get('/transfer', (req, res) => {
     res.render('transfer');
 });
 
-app.post('/transfter', (req, res) => {
-    const currentAmount = accounts["amount"].balance;
-    const fromAmount = acounts["from"].balance;
-    const balance = currentAmount - fromAmount;
-    accounts[balance].balance;
+// payment route 
+app.get('/payment', (req, res) => {
+    res.render('payement', {account: accounts.credit});
 
+});
+
+// payment post 
+
+app.post('/payment', (req, res) => {
+    accounts.credit.balance -=  req.body.amount;
+    parseInt(accounts.credit.available) += parseInt(req.body.amount);
+    let accountsJSON = JSON.stringify(accounts);
+
+      
+    // write file sync
+    fs.writeFileSync('src/json/accounts.json', accountsJSON, encoding='utf-8');
+    res.render('payment', { message: "Payment Successful", account: accounts.credit });
+});
+
+// transfer post 
+app.post('/transfter', (req, res) => {
+    accounts[req.body.from].balance -= req.body.amount;
+    accounts[req.body.to],balance += parseInt(req.body.amount);
+    let accountsJSON = JSON.stringify(accounts);
+   
+    // write file sync
+    fs.writeFileSync('src/json/accounts.json', accountsJSON, encoding='utf-8');
+    res.render('transfer', {message: "Transfer Completed"});
 });
 
 // create a server
