@@ -7,7 +7,12 @@
         <%=title %>
     </ht>
     <a href="/profile%>"><%=Profile%></a>
-
 </div>
+
+<%- include("summary") %>
+<%- include({ account: accounts.checking }) %>
+<%- include({ account: accounts.savings }) %>
+<%- include({ account: accounts.credit }) %>
+
 
 <%- include("footer") %>
