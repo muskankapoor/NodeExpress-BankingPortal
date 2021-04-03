@@ -54,7 +54,5 @@ app.post('/transfter', (req, res) => {
 });
 
 // create a server
-app.listen(3000, function(){
-    console.log("PS Project Running on port 3000!");
-});
+app.listen(3000);
 
