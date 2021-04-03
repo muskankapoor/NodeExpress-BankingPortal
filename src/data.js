@@ -9,13 +9,14 @@ const accounts = JSON.parse(accountData);
 const userData = fs.readFileSync('src/json/users.json', encoding='utf-8');
 const users = JSON.parse(userData);
 
-const writeJson = () => {
-    let accountsJSON = JSON.stringify(accounts, null, 4);
+const writeJSON = () => {
+    let accountsJSON = JSON.stringify(accounts, null, 4)
     fs.writeFileSync(path.join(__dirname, 'json','accounts.json'), accountsJSON, 'utf8');
-};
+}
 
-module.exports =  { 
-    accounts, 
-    users, 
-    writeJSON 
-}; 
+
+module.exports = {
+    accounts,
+    users,
+    writeJSON
+  };
