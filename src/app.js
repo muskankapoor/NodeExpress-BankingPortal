@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 // readFileSync to read contetns of file
 const accountData = fs.readFileSync('src/json/accounts.json', encoding='utf-8');
 const accounts = JSON.parse(accountData);
+
 const userData = fs.readFileSync('src/json/users.json', encoding='utf-8');
 const users = JSON.parse(userData);
 
@@ -45,33 +46,27 @@ app.get('/transfer', (req, res) => {
     res.render('transfer');
 });
 
-// payment route 
-app.get('/payment', (req, res) => {
-    res.render('payement', {account: accounts.credit});
-
-});
-
-// payment post 
-app.post('/payment', (req, res) => {
-    accounts.credit.balance -=  req.body.amount;
-    parseInt(accounts.credit.available) += parseInt(req.body.amount);
-    let accountsJSON = JSON.stringify(accounts);
-
-    // write file sync
-    fs.writeFileSync('src/json/accounts.json', accountsJSON, encoding='utf-8');
-    res.render('payment', { message: "Payment Successful", account: accounts.credit });
-});
-
-// transfer post 
-app.post('/transfter', (req, res) => {
+// transfer post
+app.post('/transfer', (req, res) => {
     accounts[req.body.from].balance -= req.body.amount;
-    accounts[req.body.to],balance += parseInt(req.body.amount);
-    let accountsJSON = JSON.stringify(accounts);
-   
-    // write file sync
-    fs.writeFileSync('src/json/accounts.json', accountsJSON, encoding='utf-8');
-    res.render('transfer', {message: "Transfer Completed"});
+    accounts[req.body.to].balance += parseInt(req.body.amount, 10);
+    let accountsJSON = JSON.stringify(accounts, null, 4)
+    fs.writeFileSync(path.join(__dirname, 'json','accounts.json'), accountsJSON, 'utf8');
+    res.render('transfer', {message: 'Transfer Completed'});
 });
+
+app.get('/payment', (req, res) => {
+    res.render('payment', {account: accounts.credit});
+});
+
+app.post('/payment', (req, res) => {
+    accounts.credit.balance -= req.body.amount;
+    accounts.credit.available += parseInt(req.body.amount);
+    let accountsJSON = JSON.stringify(accounts, null, 4)
+    fs.writeFileSync(path.join(__dirname, 'json','accounts.json'), accountsJSON, 'utf8');
+    res.render('payment', {message: 'Payment Successful', account: accounts.credit});
+});
+
 
 // create a server
 app.listen(3000, function(){
